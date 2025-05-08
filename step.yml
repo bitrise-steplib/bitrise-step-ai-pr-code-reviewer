@@ -63,7 +63,7 @@ inputs:
       summary: "API key for Anthropic's Claude API"
       description: |
         API key for Anthropic's Claude API, required for running Claude Code.
-        Can be obtained from https://console.anthropic.com/
+        Can be obtained from https://console.anthropic.com/settings/keys
       is_expand: true
       is_required: true
       is_sensitive: true
