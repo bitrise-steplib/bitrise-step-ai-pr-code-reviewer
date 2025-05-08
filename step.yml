@@ -8,7 +8,7 @@
 # - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
 
 title: |-
-  AI PR Reviewer (using Claude Code)
+  AI PR Code Reviewer (using Claude Code)
 summary: |
   Automated PR code change review, powered by Claude Code.
 description: |

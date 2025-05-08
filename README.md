@@ -17,7 +17,7 @@ workflows:
     # git-clone
     
     - git::https://github.com/bitrise-steplib/bitrise-step-ai-pr-code-reviewer.git@main:
-        title: Run AI review tool (step)
+        title: AI PR Code Reviewer
         inputs:
         # The only required input is the API key
         - claude_api_key: "$CLAUDE_API_KEY" # <- Define this as a Secret, enable "Expose for Pull Requests" if you want to use it in PRs.
