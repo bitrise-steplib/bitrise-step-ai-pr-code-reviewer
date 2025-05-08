@@ -20,6 +20,8 @@ workflows:
         title: AI PR Code Reviewer
         inputs:
         # The only required input is the API key
+        # API key for Anthropic's Claude API.
+        # Can be obtained from https://console.anthropic.com/settings/keys
         - claude_api_key: "$CLAUDE_API_KEY" # <- Define this as a Secret, enable "Expose for Pull Requests" if you want to use it in PRs.
         # Optional inputs
         # Review prompt. We defined a default one, but you can override it here.
@@ -30,6 +32,11 @@ workflows:
         - context_files: "$BITRISE_SOURCE_DIR/CODE_REVIEW_GUIDE.md" # You can define one or more files to include as context for the AI review.
 
 ```
+
+Don't forget to enable "Expose for Pull Request" for the API Key:
+![](docs/doc-secrets-expose-for-pull-requests.png)
+
+Also don't forget to add the `changed_files: '*'` condition to the `pull_request` trigger!
 
 ## How to use this Step
 

@@ -26,6 +26,8 @@ workflows:
         title: AI PR Code Reviewer
         inputs:
         # The only required input is the API key
+        # API key for Anthropic's Claude API.
+        # Can be obtained from https://console.anthropic.com/settings/keys
         - claude_api_key: "$CLAUDE_API_KEY" # <- Define this as a Secret, enable "Expose for Pull Requests" if you want to use it in PRs.
         # Optional inputs
         # Review prompt. We defined a default one, but you can override it here.
