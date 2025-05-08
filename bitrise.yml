@@ -12,7 +12,8 @@ app:
   - MY_STEPLIB_REPO_FORK_GIT_URL: $MY_STEPLIB_REPO_FORK_GIT_URL
 
 workflows:
-  example-workflow:
+  # example:
+  ai-pr-reviewer-workflow:
     triggers:
       # run for pull requests; changed_files filter exposes the list of changed files
       pull_request:
@@ -20,7 +21,9 @@ workflows:
         source_branch: '*'
         changed_files: '*'
     steps:
-    # git-clone
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@8: {}
     
     - git::https://github.com/bitrise-steplib/bitrise-step-ai-pr-code-reviewer.git@main:
         title: AI PR Code Reviewer
