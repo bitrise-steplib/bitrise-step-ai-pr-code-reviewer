@@ -33,6 +33,11 @@ workflows:
 
 ```
 
+Don't forget to enable "Expose for Pull Request" for the API Key:
+![](docs/doc-secrets-expose-for-pull-requests.png)
+
+Also don't forget to add the `changed_files: '*'` condition to the `pull_request` trigger!
+
 ## How to use this Step
 
 Can be run directly with the [bitrise CLI](https://github.com/bitrise-io/bitrise),
