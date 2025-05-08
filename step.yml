@@ -8,7 +8,7 @@
 # - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
 
 title: |-
-  AI PR Review with Claude Code
+  AI PR Reviewer (using Claude Code)
 summary: |
   Automated PR code change review, powered by Claude Code.
 description: |
@@ -20,9 +20,9 @@ description: |
   3. Generates a comprehensive code review using AI
   4. Optionally adds the review as annotations in the Bitrise UI
   5. Exposes the review as an output for other steps to use
-website: https://github.com/bitrise-io/bitrise-step-ai-step-claude-code
-source_code_url: https://github.com/bitrise-io/bitrise-step-ai-step-claude-code
-support_url: https://github.com/bitrise-io/bitrise-step-ai-step-claude-code/issues
+website: https://github.com/bitrise-steplib/bitrise-step-ai-pr-code-reviewer
+source_code_url: https://github.com/bitrise-steplib/bitrise-step-ai-pr-code-reviewer
+support_url: https://github.com/bitrise-steplib/bitrise-step-ai-pr-code-reviewer/issues
 
 # Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
 # You can find more information about type tags in the Step Development Guideline:

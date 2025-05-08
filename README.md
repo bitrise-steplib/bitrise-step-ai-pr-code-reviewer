@@ -1,4 +1,4 @@
-# AI Step Claude Code
+# AI PR Reviewer (using Claude Code)
 
 PR code change review, powered by Claude Code.
 
@@ -68,11 +68,11 @@ If you want to use your step in your project's `bitrise.yml`:
 2. reference it in your `bitrise.yml` with the `git::PUBLIC-GIT-CLONE-URL@BRANCH` step reference style:
 
 ```
-- git::https://github.com/user/my-step.git@branch:
-   title: My step
+- git::https://github.com/bitrise-steplib/bitrise-step-ai-pr-code-reviewer.git@branch:
+   title: AI PR Reviewer (using Claude Code)
    inputs:
-   - my_input_1: "my value 1"
-   - my_input_2: "my value 2"
+   - claude_api_key: "$CLAUDE_API_KEY"
+   - review_prompt: "Your custom review prompt here"
 ```
 
 You can find more examples of step reference styles
