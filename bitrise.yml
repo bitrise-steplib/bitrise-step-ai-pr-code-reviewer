@@ -40,6 +40,11 @@ workflows:
         # Context files
         - context_files: "$BITRISE_SOURCE_DIR/CODE_REVIEW_GUIDE.md" # You can define one or more files to include as context for the AI review.
     
+    - comment-on-github-pull-request@0:
+        inputs:
+        - personal_access_token: $GITHUB_PERSONAL_ACCESS_TOKEN
+        - body: $BITRISE_AI_REVIEW
+        - update_comment_tag: bitrise-ai
     - deploy-to-bitrise-io@2: {}
 
   test:
