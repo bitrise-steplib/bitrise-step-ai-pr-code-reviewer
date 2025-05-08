@@ -35,7 +35,8 @@ You can copy the whole example workflow from here:
             Print out the changed files, and then provide a bullet point list of issues and improvement ideas. Use markdown format.
         # Context files
         - context_files: "$BITRISE_SOURCE_DIR/CODE_REVIEW_GUIDE.md" # You can define one or more files to include as context for the AI review.
-
+    
+    - deploy-to-bitrise-io@2: {}
 ```
 
 Add `CLAUDE_API_KEY` as a secret, with your Anthropic/Claude API key.
@@ -52,6 +53,41 @@ That's it, you're now ready to use the AI PR Reviewer! 🚀
 Once you run a build with this workflow, you'll see the review as an annotation on the Bitrise build's page:
 
 ![](docs/doc-example-annotation.png)
+
+### Show the PR Review on the GitHub Pull Request
+
+The AI PR Code Reviewer step exposes the review it generates in the output environment variable `$BITRISE_AI_REVIEW`.
+You can combine this with other steps, for example with the `comment-on-github-pull-request` step.
+
+```yaml
+# workflows:
+#   ai-pr-reviewer-workflow:
+#     triggers:
+#       ...
+#     steps:
+#     - activate-ssh-key@4:
+#         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+#     - git-clone@8: {}
+#   
+#   - git::https://github.com/bitrise-steplib/bitrise-step-ai-pr-code-reviewer.git@main:
+#       title: AI PR Code Reviewer
+#       ...
+    
+    - comment-on-github-pull-request@0:
+        inputs:
+        - personal_access_token: $GITHUB_PERSONAL_ACCESS_TOKEN
+        - body: $BITRISE_AI_REVIEW
+        - update_comment_tag: bitrise-ai
+
+#     - deploy-to-bitrise-io@2: {}
+```
+
+Once you added the `comment-on-github-pull-request` step, you also have to set `GITHUB_PERSONAL_ACCESS_TOKEN` as a Secret (which is exposed to pull requests).
+
+You can generate a Personal Access Token at: [https://github.com/settings/personal-access-tokens](https://github.com/settings/personal-access-tokens).
+You can use `Fine-grained tokens`, just make sure you set the `Read and Write access to pull requests` scope for the token, under the `Permissions > Repository permissions` section:
+
+![](docs/doc-github-pat-permissions.png)
 
 
 ## How to create your own Bitrise step

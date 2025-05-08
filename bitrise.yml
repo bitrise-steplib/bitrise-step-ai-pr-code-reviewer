@@ -39,6 +39,8 @@ workflows:
             Print out the changed files, and then provide a bullet point list of issues and improvement ideas. Use markdown format.
         # Context files
         - context_files: "$BITRISE_SOURCE_DIR/CODE_REVIEW_GUIDE.md" # You can define one or more files to include as context for the AI review.
+    
+    - deploy-to-bitrise-io@2: {}
 
   test:
     steps:
