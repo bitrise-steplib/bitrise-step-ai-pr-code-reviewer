@@ -2,11 +2,14 @@
 
 PR code change review, powered by Claude Code.
 
-## Examples
+## Setup
+
+First, add a new workflow to your bitrise.yml build configuration, with the AI PR Code Reviewer step in the workflow.
+You can copy the whole example workflow from here:
 
 ```yaml
-workflows:
-  example-workflow:
+#workflows:
+  ai-pr-reviewer-workflow:
     triggers:
       # run for pull requests; changed_files filter exposes the list of changed files
       pull_request:
@@ -14,7 +17,9 @@ workflows:
         source_branch: '*'
         changed_files: '*'
     steps:
-    # git-clone
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@8: {}
     
     - git::https://github.com/bitrise-steplib/bitrise-step-ai-pr-code-reviewer.git@main:
         title: AI PR Code Reviewer
@@ -33,40 +38,19 @@ workflows:
 
 ```
 
+Add `CLAUDE_API_KEY` as a secret, with your Anthropic/Claude API key.
 Don't forget to enable "Expose for Pull Request" for the API Key:
 ![](docs/doc-secrets-expose-for-pull-requests.png)
 
-Also don't forget to add the `changed_files: '*'` condition to the `pull_request` trigger!
+Also make sure you have `changed_files: '*'` condition to the `pull_request` trigger, like you can see in the example workflow above (in case you haven't copy pasted the example, or if you modified the `triggers` section).
 
-## How to use this Step
+If you want to, customize the `review_prompt` and the `context_files` inputs, or you can also
+remove them if you want to use theh default prompt and no context files.
 
-Can be run directly with the [bitrise CLI](https://github.com/bitrise-io/bitrise),
-just `git clone` this repository, `cd` into it's folder in your Terminal/Command Line
-and call `bitrise run test`.
+That's it, you're now ready to use the AI PR Reviewer! 🚀
 
-*Check the `bitrise.yml` file for required inputs which have to be
-added to your `.bitrise.secrets.yml` file!*
 
-Step by step:
-
-1. Open up your Terminal / Command Line
-2. `git clone` the repository
-3. `cd` into the directory of the step (the one you just `git clone`d)
-5. Create a `.bitrise.secrets.yml` file in the same directory of `bitrise.yml`
-   (the `.bitrise.secrets.yml` is a git ignored file, you can store your secrets in it)
-6. Check the `bitrise.yml` file for any secret you should set in `.bitrise.secrets.yml`
-  * Best practice is to mark these options with something like `# define these in your .bitrise.secrets.yml`, in the `app:envs` section.
-7. Once you have all the required secret parameters in your `.bitrise.secrets.yml` you can just run this step with the [bitrise CLI](https://github.com/bitrise-io/bitrise): `bitrise run test`
-
-An example `.bitrise.secrets.yml` file:
-
-```
-envs:
-- A_SECRET_PARAM_ONE: the value for secret one
-- A_SECRET_PARAM_TWO: the value for secret two
-```
-
-## How to create your own step
+## How to create your own Bitrise step
 
 1. Create a new git repository for your step (**don't fork** the *step template*, create a *new* repository)
 2. Copy the [step template](https://github.com/bitrise-steplib/step-template) files into your repository
