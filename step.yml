@@ -57,6 +57,17 @@ toolkit:
 
 
 inputs:
+  - claude_api_key: "$ANTHROPIC_API_KEY"
+    opts:
+      title: "Claude API Key"
+      summary: "API key for Anthropic's Claude API"
+      description: |
+        API key for Anthropic's Claude API, required for running Claude Code.
+        Can be obtained from https://console.anthropic.com/
+      is_expand: true
+      is_required: true
+      is_sensitive: true
+
   - review_prompt: "You are code reviewer reviewing these changes. Print out the changed files, and then provide a bullet point list of issues and improvement ideas. Use markdown format."
     opts:
       title: "Review Prompt"
@@ -77,17 +88,6 @@ inputs:
         If left empty, no additional context will be included.
       is_expand: true
       is_required: false
-
-  - claude_api_key: "$ANTHROPIC_API_KEY"
-    opts:
-      title: "Claude API Key"
-      summary: "API key for Anthropic's Claude API"
-      description: |
-        API key for Anthropic's Claude API, required for running Claude Code.
-        Can be obtained from https://console.anthropic.com/
-      is_expand: true
-      is_required: true
-      is_sensitive: true
 
   - git_branch_dest: "$BITRISEIO_GIT_BRANCH_DEST"
     opts:

@@ -7,17 +7,28 @@ PR code change review, powered by Claude Code.
 ```yaml
 workflows:
   example-workflow:
+    triggers:
+      # run for pull requests; changed_files filter exposes the list of changed files
+      pull_request:
+      - target_branch: '*'
+        source_branch: '*'
+        changed_files: '*'
     steps:
     # git-clone
     
-    - path::./:
+    - git::https://github.com/bitrise-steplib/bitrise-step-ai-pr-code-reviewer.git@main:
         title: Run AI review tool (step)
         inputs:
+        # The only required input is the API key
         - claude_api_key: "$CLAUDE_API_KEY" # <- Define this as a Secret, enable "Expose for Pull Requests" if you want to use it in PRs.
+        # Optional inputs
+        # Review prompt. We defined a default one, but you can override it here.
         - review_prompt: |-
             You are code reviewer reviewing these changes.
             Print out the changed files, and then provide a bullet point list of issues and improvement ideas. Use markdown format.
+        # Context files
         - context_files: "$BITRISE_SOURCE_DIR/CODE_REVIEW_GUIDE.md" # You can define one or more files to include as context for the AI review.
+
 ```
 
 ## How to use this Step
