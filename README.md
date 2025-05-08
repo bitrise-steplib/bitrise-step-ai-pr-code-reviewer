@@ -49,6 +49,10 @@ remove them if you want to use theh default prompt and no context files.
 
 That's it, you're now ready to use the AI PR Reviewer! 🚀
 
+Once you run a build with this workflow, you'll see the review as an annotation on the Bitrise build's page:
+
+![](docs/doc-example-annotation.png)
+
 
 ## How to create your own Bitrise step
 
