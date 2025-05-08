@@ -1,0 +1,146 @@
+#
+# A couple of useful guides & docs:
+#
+# - Main Bitrise CLI docs: https://github.com/bitrise-io/bitrise/tree/master/_docs
+# - Step Development Guideline: https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+# - Bitrise.yml format spec: https://github.com/bitrise-io/bitrise/blob/master/_docs/bitrise-yml-format-spec.md
+# - Bitrise docs: http://devcenter.bitrise.io/
+# - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
+
+title: |-
+  AI PR Review with Claude Code
+summary: |
+  Automated PR code change review, powered by Claude Code.
+description: |
+  This step performs an AI-powered review of code changes in a pull request using Claude Code.
+
+  It automatically:
+  1. Installs Claude Code CLI
+  2. Fetches and analyzes the diff between branches
+  3. Generates a comprehensive code review using AI
+  4. Optionally adds the review as annotations in the Bitrise UI
+  5. Exposes the review as an output for other steps to use
+website: https://github.com/bitrise-io/bitrise-step-ai-step-claude-code
+source_code_url: https://github.com/bitrise-io/bitrise-step-ai-step-claude-code
+support_url: https://github.com/bitrise-io/bitrise-step-ai-step-claude-code/issues
+
+# Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
+# You can find more information about type tags in the Step Development Guideline:
+# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+type_tags:
+  - test
+  - utility
+  - ai
+  - code-review
+
+# These properties define whether a Step is run in a given Workflow or not.
+# You can find more information about this in the documentation here:
+# https://devcenter.bitrise.io/en/steps-and-workflows/developing-your-own-bitrise-step/developing-a-new-step.html#setting-conditions-for-running-the-step
+#
+is_always_run: false
+is_skippable: true
+run_if: ""
+
+# Use the `deps` property to declare dependencies that you can fetch from an OS dependency manager.
+# You can find more information about this in the documentation here:
+# https://devcenter.bitrise.io/en/steps-and-workflows/developing-your-own-bitrise-step/developing-a-new-step.html#submodules-and-step-dependencies
+#
+deps:
+  brew:
+    - name: node
+  apt_get:
+    - name: npm
+
+toolkit:
+  bash:
+    entry_file: step.sh
+
+
+inputs:
+  - review_prompt: "You are code reviewer reviewing these changes. Print out the changed files, and then provide a bullet point list of issues and improvement ideas. Use markdown format."
+    opts:
+      title: "Review Prompt"
+      summary: "Customizable prompt for the AI review"
+      description: |
+        The prompt to send to Claude Code when reviewing the code changes.
+        This can be customized to focus on specific aspects of the code review.
+      is_expand: true
+      is_required: true
+
+  - context_files: ""
+    opts:
+      title: "Context Files"
+      summary: "Additional files to include as context for the AI review. For example if you have a code review guide, or a style guide, you can include it here."
+      description: |
+        Specify one or more files to include as additional context for the AI review.
+        Multiple files can be listed, separated by newlines.
+        If left empty, no additional context will be included.
+      is_expand: true
+      is_required: false
+
+  - claude_api_key: "$ANTHROPIC_API_KEY"
+    opts:
+      title: "Claude API Key"
+      summary: "API key for Anthropic's Claude API"
+      description: |
+        API key for Anthropic's Claude API, required for running Claude Code.
+        Can be obtained from https://console.anthropic.com/
+      is_expand: true
+      is_required: true
+      is_sensitive: true
+
+  - git_branch_dest: "$BITRISEIO_GIT_BRANCH_DEST"
+    opts:
+      category: Debug
+      title: "Destination Branch"
+      summary: "The destination branch of the pull request"
+      description: |
+        The destination branch of the pull request (e.g., main, master).
+        Default is $BITRISEIO_GIT_BRANCH_DEST, which is set by Bitrise automatically.
+      is_expand: true
+      is_required: true
+
+  - git_branch_src: "$BITRISE_GIT_BRANCH"
+    opts:
+      category: Debug
+      title: "Source Branch"
+      summary: "The source branch of the pull request"
+      description: |
+        The source branch of the pull request.
+        Default is $BITRISE_GIT_BRANCH, which is set by Bitrise automatically.
+      is_expand: true
+      is_required: true
+
+  - deploy_dir: "$BITRISE_DEPLOY_DIR"
+    opts:
+      category: Debug
+      title: "Deploy Directory"
+      summary: "Directory where output files will be saved"
+      description: |
+        Directory where the diff and review output files will be saved.
+        Default is $BITRISE_DEPLOY_DIR, which is set by Bitrise automatically.
+      is_expand: true
+      is_required: true
+      is_dont_change_value: true
+
+  - bitrise_services_token: "$BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN"
+    opts:
+      category: Debug
+      title: "Bitrise Services Access Token"
+      summary: "Token for Bitrise services, used for annotations"
+      description: |
+        Optional token for accessing Bitrise services, used for creating annotations.
+        If not provided, annotations will not be created.
+      is_expand: true
+      is_required: false
+      is_sensitive: true
+      is_dont_change_value: true
+
+outputs:
+  - BITRISE_AI_REVIEW:
+    opts:
+      title: "AI Review Result"
+      summary: "The complete AI review of the code changes"
+      description: |
+        The complete AI review of the code changes, which can be used by subsequent steps.
+        For example, to post the review as a PR comment.
