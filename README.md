@@ -16,6 +16,8 @@ You can copy the whole example workflow from here:
       - target_branch: '*'
         source_branch: '*'
         changed_files: '*'
+    # Set status_report_name to report the status of this workflow separately.
+    status_report_name: 'AI Codereviewer'
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
