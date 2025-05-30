@@ -68,7 +68,21 @@ inputs:
       is_required: true
       is_sensitive: true
 
-  - review_prompt: "You are code reviewer reviewing these changes. Print out the changed files, and then provide a bullet point list of issues and improvement ideas. Use markdown format."
+  - review_prompt: |
+      You are a code reviewer reviewing the changes in the pull request.
+      
+      When referencing code always include the location of the referenced code (file and line number in file).
+      
+      Use emojis for easier visual scan-through.
+      
+      Print out the changed files (with a summary about the changes in the given file),
+      and then provide a bullet point list of issues and improvement ideas. Use markdown format.
+      
+      In the code review have the following sections/lists:
+      - 📁 Changed Files
+      - 🟢 Positive Findings: Always have at least 1 positive finding if possible, highlighting something in the change which is good.
+      - 🔴 Issues
+      - 💡 Improvements
     opts:
       title: "Review Prompt"
       summary: "Customizable prompt for the AI review"

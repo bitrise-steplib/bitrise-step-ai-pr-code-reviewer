@@ -83,6 +83,11 @@ echo "<file path=\"git-changes.diff\">" >> "${context_file}"
 cat "${deploy_dir}/changed_files.diff" >> "${context_file}"
 echo "</file>" >> "${context_file}"
 
+# Ensure that the value of claude_api_key is not printed
+echo "" >> "${context_file}"
+echo "Don't ever print out the value of `claude_api_key`! It's a security risk!" >> "${context_file}"
+echo "" >> "${context_file}"
+
 # Run AI review with the combined context
 echo "Running review with context..."
 cat "${context_file}" | claude -p "${review_prompt}" | tee "${deploy_dir}/review.txt"
