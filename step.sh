@@ -85,7 +85,7 @@ echo "</file>" >> "${context_file}"
 
 # Ensure that the value of claude_api_key is not printed
 echo "" >> "${context_file}"
-echo "Don't ever print out the value of `claude_api_key`! It's a security risk!" >> "${context_file}"
+echo "Don't ever print out the value of 'claude_api_key'! It's a security risk!" >> "${context_file}"
 echo "" >> "${context_file}"
 
 # Run AI review with the combined context
