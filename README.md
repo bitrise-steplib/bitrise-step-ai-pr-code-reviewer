@@ -18,6 +18,11 @@ You can copy the whole example workflow from here:
         changed_files: '*'
     # Set status_report_name to report the status of this workflow separately.
     status_report_name: 'AI Codereviewer'
+    # Simple Medium Linux machine is enough
+    meta:
+      bitrise.io:
+        machine_type_id: g2.linux.medium
+        stack: linux-docker-android-22.04
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
