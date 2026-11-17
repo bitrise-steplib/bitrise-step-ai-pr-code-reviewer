@@ -44,7 +44,7 @@ workflows:
     
     - comment-on-github-pull-request@0:
         inputs:
-        - personal_access_token: $GITHUB_PERSONAL_ACCESS_TOKEN
+        - personal_access_token: $GITHUB_TOKEN_STEPLIB_PR_COMMENT
         - body: $BITRISE_AI_REVIEW
         - update_comment_tag: bitrise-ai
     - deploy-to-bitrise-io@2: {}
